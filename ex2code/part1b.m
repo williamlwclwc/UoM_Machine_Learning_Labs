@@ -10,6 +10,7 @@ avr_te = 0;
 std_te = 0;
 accuracy_te = zeros(50, 1);
 accuracy_loo = zeros(400, 1);
+% leave one out method to determine k
 for k = 1: 399
     c_te = 0;
     for i = 1: 400
@@ -27,7 +28,7 @@ for k = 1: 399
 end
 [best_loo, k] = max(accuracy_loo);
 fprintf('best choice of k is %i, with average accuracy: %f\n', k, best_loo)
-k = 1;
+% k = 1;
 w_te = 0;
 for i = 1: 50
     %training set containing 5*40 examples

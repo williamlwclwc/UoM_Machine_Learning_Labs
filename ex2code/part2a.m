@@ -58,7 +58,7 @@ std_te = std(accuracy_te);
 fprintf('average testing accuracy = %f, standard deviation = %f\n', avr_te, std_te);
 fprintf('average training accuracy = %f\n', avr_tr);
 
-% draw errorbar graph
+% draw graph
 figure(1);
 x = 1:50;
 y = accuracy_te(x);

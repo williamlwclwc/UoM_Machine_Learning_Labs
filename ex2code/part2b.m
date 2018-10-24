@@ -7,7 +7,7 @@ Xte = zeros(200, 1024);
 Ytr = zeros(200);
 Yte = zeros(200);
 Y_mul_tr = zeros(200, 40);
-Y_mul_te = zeros(200, 40);
+% Y_mul_te = zeros(200, 40);
 avr_te = 0;
 w_te = 0;
 accuracy_te_linear = zeros(50, 1);
@@ -17,7 +17,7 @@ for i = 1: 50
     % make the 1 of k matrix
     for j = 1: 200
         Y_mul_tr(j, Ytr(j)) = 1;
-        Y_mul_te(j, Yte(j)) = 1;
+        % Y_mul_te(j, Yte(j)) = 1;
     end
     % normal equations to get predictions
     X_train = [ones(size(Xtr, 1), 1), Xtr];

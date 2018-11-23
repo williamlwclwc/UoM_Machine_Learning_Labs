@@ -23,14 +23,23 @@ function [y1, y2] = NBTest(p_train, p_total, testAttributeSet, validLabel)
     aNum = max(testAttributeSet(:)) + 1;
     correct = 0;
     predicted = zeros(testNum, 1);
+    parameter = 1.35e-14;
+    if round(testAttributeSet) - testAttributeSet == 0
+        flag = 0; % discrete
+    else 
+        flag = 1; % continuous
+    end
     for i = 1: testNum
         probability = ones(cNum, 1);
         for c = 1: cNum
             for j = 1: fNum
-                for k = 1: aNum
-                    if k - 1 == testAttributeSet(i, j)
-                        probability(c) = probability(c) * p_train(k, c, j);
-                        break;
+                if flag == 0
+                    probability(c) = probability(c) * p_train(testAttributeSet(i, j) + 1, c, j);
+                else
+                    if p_train(1, c, j) ~= 0 && p_train(2, c, j) ~= 0
+                        probability(c) = probability(c) * normpdf(testAttributeSet(i, j), p_train(1, c, j) , p_train(2, c, j));
+                    else
+                        probability(c) = probability(c) * parameter;
                     end
                 end
             end

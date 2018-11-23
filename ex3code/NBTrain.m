@@ -21,12 +21,13 @@ function [y1, y2] = NBTrain(AttributeSet, LabelSet)
     aNum = max(AttributeSet(:)) + 1;
     % number of categories, 1 for spam, 2 for not spam...
     cNum = max(LabelSet) + 1; 
-    total = zeros(cNum, 1);
-    p_total = zeros(cNum, 1);
-    training = zeros(aNum, cNum, fNum);
-    p_train = zeros(aNum, cNum, fNum);
+    total = zeros(cNum, 1); % number of instances of each class
+    p_total = zeros(cNum, 1); % probability of each class
+    training = zeros(aNum, cNum, fNum); % count for each class, attribute, attribute value
+    p_train = zeros(aNum, cNum, fNum); % probability for each class, attribute, attribute value
     if round(AttributeSet) - AttributeSet == 0
         % discrete valued features
+        % do the counting stuff
         for i = 1: trainNum
             for c = 1: cNum
                 if LabelSet(i) == c - 1
@@ -37,6 +38,7 @@ function [y1, y2] = NBTrain(AttributeSet, LabelSet)
                 end
             end
         end
+        % calculate the probability based on counts
         for c = 1: cNum
             p_total(c) = total(c) / sum(total);
             for j = 1: fNum
@@ -59,10 +61,12 @@ function [y1, y2] = NBTrain(AttributeSet, LabelSet)
         featureSet(featureSet == 0) = -1;
         index = ones(cNum, 1);
         avr_std = zeros(2, cNum, fNum);
+        % divide attributeset into n parts(n is the number of classes)
         for i = 1: trainNum
             featureSet(LabelSet(i) + 1, index(LabelSet(i) + 1), :) = AttributeSet(i, :);
             index(LabelSet(i) + 1) = index(LabelSet(i) + 1) + 1;
         end
+        % calculate mean&std for each class, attribute
         for c = 1: cNum
             for j = 1: fNum
                 temp = featureSet(c, :, j);

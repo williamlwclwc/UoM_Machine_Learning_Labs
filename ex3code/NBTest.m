@@ -23,7 +23,7 @@ function [y1, y2] = NBTest(p_train, p_total, testAttributeSet, validLabel)
     aNum = max(testAttributeSet(:)) + 1;
     correct = 0;
     predicted = zeros(testNum, 1);
-    parameter = 1.35e-14;
+    parameter = 1.1e-40;
     if round(testAttributeSet) - testAttributeSet == 0
         flag = 0; % discrete
     else 
@@ -34,12 +34,20 @@ function [y1, y2] = NBTest(p_train, p_total, testAttributeSet, validLabel)
         for c = 1: cNum
             for j = 1: fNum
                 if flag == 0
+                    % multiply the probabilty of this attribute value (discrete)
                     probability(c) = probability(c) * p_train(testAttributeSet(i, j) + 1, c, j);
                 else
-                    if p_train(1, c, j) ~= 0 && p_train(2, c, j) ~= 0
+                    if p_train(2, c, j) ~= 0
+                        % if std is not 0, use normal distribution to calculate probability
                         probability(c) = probability(c) * normpdf(testAttributeSet(i, j), p_train(1, c, j) , p_train(2, c, j));
                     else
-                        probability(c) = probability(c) * parameter;
+                        if testAttributeSet(i, j) == p_train(1, c, j)
+                            % if its a common value, it should be a high probability
+                            probability(c) = probability(c) * 1;
+                        else
+                            % if its a not common value, it should be a small probability
+                            probability(c) = probability(c) * parameter;
+                        end
                     end
                 end
             end

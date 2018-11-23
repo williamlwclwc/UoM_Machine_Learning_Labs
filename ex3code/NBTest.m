@@ -41,13 +41,14 @@ function [y1, y2] = NBTest(p_train, p_total, testAttributeSet, validLabel)
                         % if std is not 0, use normal distribution to calculate probability
                         probability(c) = probability(c) * normpdf(testAttributeSet(i, j), p_train(1, c, j) , p_train(2, c, j));
                     else
-                        if testAttributeSet(i, j) == p_train(1, c, j)
-                            % if its a common value, it should be a high probability
-                            probability(c) = probability(c) * 1;
-                        else
-                            % if its a not common value, it should be a small probability
-                            probability(c) = probability(c) * parameter;
-                        end
+                        % if testAttributeSet(i, j) == p_train(1, c, j)
+                        %     % if its a common value, it should be a high probability
+                        %     probability(c) = probability(c) * 1;
+                        % else
+                        %     % if its a not common value, it should be a small probability
+                        %     probability(c) = probability(c) * parameter;
+                        % end
+                        probability(c) = probability(c) * normpdf(testAttributeSet(i, j), p_train(1, c, j) , 2.5e-4);
                     end
                 end
             end

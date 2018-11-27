@@ -9,15 +9,19 @@ if strcmp(fname, 'spambase.data') == 0
     % Put your NB test function below
     [predictLabel, accuracy] = NBTest(probability, p_total, testAttributeSet, validLabel); % NB test
     c_matrix = confusionmat(predictLabel, validLabel)
+    if max(LabelSet) + 1 == 2
+        plotconfusion(validLabel',predictLabel');
+    end
 else
     % 10 fold cross validation for spambase.data
     acc = zeros(10, 1);
     % random the dataset
     r = randperm(size(spambase,1));
     spambase = spambase(r, :);
-    % extract label data from the dataset                 
-    Label = spambase(:, 58);
-    spambase(:, 58) = [];
+    % extract label data from the dataset
+    column_num = length(spambase(1, :));                 
+    Label = spambase(:, column_num);
+    spambase(:, column_num) = [];
     % 10 fold cross validation
     for i = 1: 10
         AttributeSet = spambase;

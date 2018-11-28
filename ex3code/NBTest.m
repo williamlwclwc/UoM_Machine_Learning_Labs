@@ -23,7 +23,6 @@ function [y1, y2] = NBTest(p_train, p_total, testAttributeSet, validLabel)
     aNum = max(testAttributeSet(:)) + 1;
     correct = 0;
     predicted = zeros(testNum, 1);
-    parameter = 1.1e-40;
     if round(testAttributeSet) - testAttributeSet == 0
         flag = 0; % discrete
     else 

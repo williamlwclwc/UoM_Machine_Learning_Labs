@@ -31,7 +31,7 @@ else
         AttributeSet((i-1)*460+1: i*460, :) = [];
         LabelSet((i-1)*460+1: i*460) = [];
         [probability, p_total] = NBTrain(AttributeSet, LabelSet);
-        [predictLabel, accuracy] = NBTest(probability, p_total, testAttributeSet, validLabel);
+        [predictLabel, accuracy] = NBTest(probability, p_total, testAttributeSet, validLabel); 
         fprintf('Fold No.%i, average testing accuracy = %f\n', i, accuracy);
         acc(i) = accuracy;
         c_matrix = confusionmat(predictLabel, validLabel)
